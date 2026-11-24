@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEELI — See more. Live more.</title>
+<meta name="description" content="SEELI là ứng dụng chụp ảnh không cho bạn xem lại ngay. Chụp, buông, và khoảng 30 ngày sau gặp lại nó bằng một đôi mắt mới.">
+<meta name="theme-color" content="#F6F5F0">
+<meta property="og:title" content="SEELI — See more. Live more.">
+<meta property="og:description" content="Nhìn → Chụp → Buông → Thời gian trôi qua → Gặp lại.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://seeli.tunnaduong.com">
+<meta property="og:image" content="https://seeli.tunnaduong.com/apple-touch-icon.png">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F6F5F0;
+  --card: #ECEBE4;
+  --surface: #FFFFFE;
+  --green: #5F6B4E;
+  --green-soft: #A9B79C;
+  --green-pale: #DCE4DA;
+  --ink: #2F302B;
+  --muted: #8B8C84;
+  --line: #E2E1DA;
+  --sun: #F5D38A;
+  --night: #1F211D;
+  --sans: "Be Vietnam Pro", "Noto Sans JP", system-ui, sans-serif;
+  --serif: "Lora", "Shippori Mincho", "Hiragino Mincho ProN", serif;
+  --mincho: "Shippori Mincho", "Hiragino Mincho ProN", serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+html[lang="ja"] body { line-height: 1.85; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+/* Nav */
+nav {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s;
+}
+nav.scrolled { border-color: var(--line); }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; letter-spacing: .14em; }
+.brand svg { width: 28px; height: 28px; }
+.lang { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--card); }
+.lang button {
+  border: 0; background: transparent; font: 600 13px var(--sans); color: var(--muted);
+  padding: 6px 14px; border-radius: 999px; cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+
+/* Hero */
+.hero { padding: 72px 0 96px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 64px; align-items: center; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; letter-spacing: .08em; color: var(--green);
+  background: var(--green-pale); padding: 6px 14px; border-radius: 999px;
+}
+.eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+h1 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(44px, 6.4vw, 80px); line-height: 1.05; letter-spacing: -.02em;
+  margin: 24px 0 20px;
+}
+h1 em { font-style: italic; color: var(--green); }
+.lead { font-size: 19px; color: #4a4b45; max-width: 34em; margin: 0 0 32px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  height: 52px; padding: 0 24px; border-radius: 16px; font-weight: 600; font-size: 15px;
+}
+.btn.primary { background: var(--green); color: #fff; }
+.btn.ghost { background: var(--card); color: var(--green); }
+.btn svg { width: 18px; height: 18px; }
+.note { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+/* Phone mock */
+.phone {
+  width: min(300px, 100%); aspect-ratio: 9 / 19.2; margin-inline: auto;
+  background: #111; border-radius: 48px; padding: 10px;
+  box-shadow: 0 40px 80px -30px rgba(47,48,43,.45), 0 0 0 1px rgba(0,0,0,.06);
+  position: relative;
+}
+.phone::before {
+  content: ""; position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+  width: 92px; height: 26px; background: #111; border-radius: 20px; z-index: 2;
+}
+.screen {
+  height: 100%; border-radius: 39px; background: var(--bg); overflow: hidden;
+  display: flex; flex-direction: column; padding: 54px 20px 22px; position: relative;
+}
+.s-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: var(--muted); }
+.s-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--card); display: grid; place-items: center; }
+.s-avatar svg { width: 14px; }
+.s-logo { text-align: center; margin-top: auto; }
+.s-logo svg { width: 26px; margin: 0 auto 4px; }
+.s-logo b { display: block; font-size: 30px; letter-spacing: .06em; }
+.s-logo span { font-size: 11px; color: var(--muted); }
+.s-card { margin: 22px 6px 0; background: var(--card); border-radius: 20px; padding: 18px; text-align: center; font-size: 13px; }
+.s-cam { width: 48px; height: 48px; border-radius: 50%; background: var(--green); display: grid; place-items: center; margin: 12px auto 0; }
+.s-cam svg { width: 20px; }
+.s-bottom { margin-top: auto; border-top: 1px solid var(--line); padding-top: 14px; display: flex; justify-content: space-between; font-size: 11px; font-weight: 500; }
+
+/* Sections */
+section { padding: 96px 0; }
+.kicker { font-size: 13px; font-weight: 600; letter-spacing: .16em; color: var(--green); text-transform: uppercase; }
+h2 {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.15; margin: 12px 0 16px; letter-spacing: -.01em;
+}
+.sub { color: #5c5d56; max-width: 40em; margin: 0; }
+
+/* Cycle */
+.cycle { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 48px; counter-reset: step; }
+.step {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+  padding: 24px 20px; position: relative; counter-increment: step;
+}
+.step::before {
+  content: "0" counter(step); font-family: var(--serif); font-size: 13px; color: var(--muted);
+}
+.step h3 { font-family: var(--serif); font-weight: 500; font-size: 24px; margin: 10px 0 8px; }
+.step p { font-size: 14px; color: #5c5d56; margin: 0; }
+.step.accent { background: var(--green); border-color: var(--green); color: #fff; }
+.step.accent p, .step.accent::before { color: rgba(255,255,255,.8); }
+
+/* Compare */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+.flow { border-radius: 28px; padding: 32px; }
+.flow.sns { background: var(--card); color: #6b6c65; }
+.flow.seeli { background: var(--night); color: #f1f0ea; }
+.flow h3 { margin: 0 0 18px; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+.flow ol { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.flow li { padding: 8px 14px; border-radius: 999px; font-size: 15px; }
+.flow.sns li { background: rgba(255,255,255,.6); }
+.flow.seeli li { background: rgba(255,255,255,.08); }
+.flow li.arrow { padding: 0; background: none !important; opacity: .5; }
+.flow p { margin: 22px 0 0; font-family: var(--serif); font-style: italic; font-size: 18px; }
+
+/* Features */
+.features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 48px; }
+.feature { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 32px; }
+.feature .ic { width: 48px; height: 48px; border-radius: 50%; background: var(--card); display: grid; place-items: center; margin-bottom: 20px; }
+.feature .ic svg { width: 22px; height: 22px; stroke: var(--green); }
+.feature h3 { font-size: 20px; font-weight: 600; margin: 0 0 8px; }
+.feature p { margin: 0; color: #5c5d56; font-size: 15px; }
+
+/* Words */
+.words .wrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; }
+.memory {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 32px; padding: 22px;
+  display: grid; grid-template-columns: auto 1fr auto; gap: 16px; width: 100%; max-width: 440px; margin-inline: auto;
+  box-shadow: 0 30px 60px -40px rgba(47,48,43,.4);
+}
+.memory .label { font-size: 11px; color: var(--muted); writing-mode: horizontal-tb; }
+.memory .place, .memory .date {
+  writing-mode: vertical-rl; font-size: 12px; color: var(--muted); letter-spacing: .1em; font-family: var(--sans);
+}
+.memory .place { align-self: end; }
+.memory .note {
+  background: var(--card); border-radius: 20px; padding: 28px 22px; height: 300px;
+  writing-mode: vertical-rl; font-family: var(--mincho); font-size: 21px; line-height: 2.1; letter-spacing: .12em;
+  display: flex; align-items: center; justify-content: center;
+}
+.memory .left { display: flex; flex-direction: column; justify-content: space-between; }
+
+/* Widgets */
+.widgets { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 48px; }
+.widget {
+  width: 170px; height: 170px; border-radius: 34px; background: var(--bg);
+  box-shadow: 0 20px 40px -24px rgba(47,48,43,.5), 0 0 0 1px var(--line);
+  padding: 16px; display: flex; flex-direction: column; font-size: 11px;
+}
+.widget.wide { width: 360px; }
+.widget .q { font-family: var(--serif); font-size: 15px; margin-top: auto; line-height: 1.35; }
+.widget .row { display: flex; justify-content: space-between; align-items: end; margin-top: auto; color: var(--muted); }
+.widget .cam { width: 34px; height: 34px; border-radius: 50%; background: var(--green); display: grid; place-items: center; }
+.widget .cam svg { width: 15px; }
+.widget .v { writing-mode: vertical-rl; font-family: var(--mincho); font-size: 14px; line-height: 1.8; margin-left: auto; height: 136px; overflow: hidden; }
+.widget .wl { width: 52px; flex: none; }
+.lock {
+  width: 170px; height: 74px; border-radius: 20px; background: linear-gradient(135deg, #3d4a5f, #6b7f8f);
+  color: #fff; padding: 12px 14px; font-size: 12px; display: flex; flex-direction: column; justify-content: center;
+  box-shadow: 0 20px 40px -24px rgba(47,48,43,.6);
+}
+.lock b { letter-spacing: .1em; font-size: 12px; }
+
+/* Why */
+.why { background: var(--night); color: #f1f0ea; }
+.why .kicker { color: var(--green-soft); }
+.why blockquote {
+  font-family: var(--serif); font-size: clamp(26px, 3.2vw, 40px); line-height: 1.35; margin: 20px 0 32px; font-weight: 400;
+  max-width: 22em;
+}
+.why blockquote em { color: var(--sun); font-style: italic; }
+.why p { color: #c4c3bb; max-width: 40em; }
+
+/* CTA */
+.final { text-align: center; }
+.final h2 { margin-inline: auto; max-width: 14em; }
+.final .ctas { justify-content: center; margin-top: 28px; }
+
+footer { border-top: 1px solid var(--line); padding: 32px 0 48px; font-size: 14px; color: var(--muted); }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+footer a { text-decoration: none; color: var(--ink); }
+footer a:hover { text-decoration: underline; }
+
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .hero .wrap, .words .wrap { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .hero { padding-top: 40px; }
+  .cycle { grid-template-columns: repeat(2, 1fr); }
+  .compare, .features { grid-template-columns: 1fr; }
+  section { padding: 72px 0; }
+}
+@media (max-width: 480px) {
+  .cycle { grid-template-columns: 1fr; }
+  .widget.wide { width: 100%; }
+  .phone { width: min(260px, 100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="eye" viewBox="0 0 32 32"><path d="M3 16c3.4-5.4 7.8-8 13-8s9.6 2.6 13 8c-3.4 5.4-7.8 8-13 8S6.4 21.4 3 16Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="16" cy="16" r="4.2" fill="currentColor"/><circle cx="16" cy="16" r="1.3" fill="#F5D38A"/></symbol>
+  <symbol id="cam" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.4" fill="none" stroke="#fff" stroke-width="1.6"/></symbol>
+  <symbol id="person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="#5F6B4E" stroke-width="1.6"/><path d="M4 21c1.2-4 4.2-6 8-6s6.8 2 8 6" fill="none" stroke="#5F6B4E" stroke-width="1.6"/></symbol>
+</svg>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="SEELI"><svg><use href="#eye"/></svg>SEELI</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="vi" aria-pressed="true">VI</button>
+      <button type="button" data-lang="ja" aria-pressed="false">日本語</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow" data-i18n="eyebrow">Ứng dụng iOS · Sắp ra mắt</span>
+      <h1>See more.<br><em>Live more.</em></h1>
+      <p class="lead" data-i18n="lead">SEELI là ứng dụng chụp ảnh không cho bạn xem lại ngay. Chụp, buông điện thoại xuống — và khoảng 30 ngày sau, gặp lại khoảnh khắc ấy bằng một đôi mắt mới.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#cycle" data-i18n="cta.how">Cách SEELI hoạt động</a>
+        <a class="btn ghost" href="#why" data-i18n="cta.why">Vì sao lại là SEELI?</a>
+      </div>
+      <p class="note" data-i18n="note">Tiếng Việt · 日本語 — iPhone, iOS 17 trở lên.</p>
+    </div>
+    <div class="phone" role="img" aria-label="SEELI home screen">
+      <div class="screen">
+        <div class="s-top"><span data-i18n="mock.date">Thứ Ba, 24 tháng 11, 2026</span><span class="s-avatar"><svg viewBox="0 0 24 24"><use href="#person"/></svg></span></div>
+        <div class="s-logo"><svg viewBox="0 0 32 32" style="color:var(--ink)"><use href="#eye"/></svg><b>SEELI</b><span>See more. Live more.</span></div>
+        <div class="s-card"><span data-i18n="mock.q">Hôm nay, bạn đã nhìn thấy gì?</span><div class="s-cam"><svg viewBox="0 0 24 24"><use href="#cam"/></svg></div></div>
+        <div class="s-bottom" style="margin-top:auto"><span>Let's connect</span><span>Memories</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="cycle">
+  <div class="wrap">
+    <div class="kicker reveal">How it works</div>
+    <h2 class="reveal" data-i18n="cycle.title">Nhìn. Chụp. Buông. Rồi một ngày gặp lại.</h2>
+    <p class="sub reveal" data-i18n="cycle.sub">Ngay khi chụp, bức ảnh biến mất khỏi màn hình. Bạn không kiểm tra “đã đẹp chưa” — bạn tiếp tục sống trong khoảnh khắc ấy.</p>
+    <div class="cycle">
+      <div class="step reveal"><h3 data-i18n="s1.t">Nhìn</h3><p data-i18n="s1.d">Để ý một điều nhỏ trên đường đi.</p></div>
+      <div class="step reveal"><h3 data-i18n="s2.t">Chụp</h3><p data-i18n="s2.d">Một lần bấm, kèm một lời ngắn.</p></div>
+      <div class="step reveal"><h3 data-i18n="s3.t">Buông</h3><p data-i18n="s3.d">Ảnh được cất đi. Đặt điện thoại xuống.</p></div>
+      <div class="step reveal"><h3 data-i18n="s4.t">Thời gian trôi</h3><p data-i18n="s4.d">Khoảng 30 ngày, vào lúc không ngờ tới.</p></div>
+      <div class="step accent reveal"><h3 data-i18n="s5.t">Gặp lại</h3><p data-i18n="s5.d">Nhìn lại bằng một tâm trạng khác.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="compare">
+      <div class="flow sns reveal">
+        <h3 data-i18n="sns.title">Mạng xã hội thông thường</h3>
+        <ol>
+          <li data-i18n="sns.1">Chụp</li><li class="arrow">→</li>
+          <li data-i18n="sns.2">Đăng</li><li class="arrow">→</li>
+          <li data-i18n="sns.3">Nhận like</li><li class="arrow">→</li>
+          <li data-i18n="sns.4">Xem phản ứng</li><li class="arrow">→</li>
+          <li data-i18n="sns.5">Đăng tiếp</li>
+        </ol>
+        <p data-i18n="sns.q">“Người khác có thích ảnh này không?”</p>
+      </div>
+      <div class="flow seeli reveal">
+        <h3>SEELI</h3>
+        <ol>
+          <li data-i18n="seeli.1">Nhìn</li><li class="arrow">→</li>
+          <li data-i18n="seeli.2">Chụp</li><li class="arrow">→</li>
+          <li data-i18n="seeli.3">Buông</li><li class="arrow">→</li>
+          <li data-i18n="seeli.4">Sống tiếp</li><li class="arrow">→</li>
+          <li data-i18n="seeli.5">Gặp lại</li>
+        </ol>
+        <p data-i18n="seeli.q">“Mình đã nhìn thấy gì?”</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="kicker reveal">Design</div>
+    <h2 class="reveal" data-i18n="feat.title">Những giới hạn được thiết kế có chủ ý.</h2>
+    <div class="features">
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M3 12c2.5-4 5.5-6 9-6s6.5 2 9 6c-2.5 4-5.5 6-9 6s-6.5-2-9-6Z"/><path d="M4 4l16 16"/></svg></div>
+        <h3 data-i18n="f1.t">Không xem lại ngay</h3>
+        <p data-i18n="f1.d">Chụp xong là ảnh được cất đi. Không chỉnh sửa, không chọn lại, không so sánh — chỉ có khoảnh khắc thật.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9"/></svg></div>
+        <h3 data-i18n="f2.t">Gặp lại sau khoảng 30 ngày</h3>
+        <p data-i18n="f2.d">Ký ức cần thời gian. Cùng một bức ảnh, nhưng một tháng sau, bạn đã nhìn nó khác đi.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 14v.01M20 20h-3M14 20v.01"/></svg></div>
+        <h3 data-i18n="f3.t">Bạn bè chỉ qua mã QR</h3>
+        <p data-i18n="f3.d">Chỉ những người bạn đã thực sự gặp ngoài đời. Công nghệ nối dài mối quan hệ thật, không thay thế nó.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/><path d="M4 4l16 16"/></svg></div>
+        <h3 data-i18n="f4.t">Không like, không follower</h3>
+        <p data-i18n="f4.d">Không lượt xem, không bảng xếp hạng, không thuật toán giữ bạn ở lại. Bình luận chỉ người đăng và bạn thấy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="words">
+  <div class="wrap">
+    <div class="memory reveal" aria-label="Memory card">
+      <div class="left">
+        <span class="label" data-i18n="mem.label">Lời của ngày hôm ấy</span>
+        <span class="place">京都府京都市</span>
+      </div>
+      <div class="note">駅までの道で、いつもと違う鳥の声がした。</div>
+      <span class="date">十一月十日　午前七時二十五分</span>
+    </div>
+    <div>
+      <div class="kicker reveal">My Memories</div>
+      <h2 class="reveal" data-i18n="words.title">Nhớ lại bằng con chữ, không chỉ bằng hình ảnh.</h2>
+      <p class="sub reveal" data-i18n="words.sub">Mỗi bức ảnh đi kèm một lời ngắn. Đôi khi một câu viết khiến ta nhớ về một khoảnh khắc rõ hơn cả tấm ảnh. Ghi chú tiếng Nhật được trình bày theo lối viết dọc, như trang báo truyền thống.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker reveal">Widgets</div>
+    <h2 class="reveal" data-i18n="w.title">Trên màn hình chính và màn hình khóa.</h2>
+    <p class="sub reveal" style="margin-inline:auto" data-i18n="w.sub">Một lời nhắc nhẹ để nhìn thế giới — và một tín hiệu khi khoảnh khắc cũ quay lại. Widget không bao giờ hiện ảnh.</p>
+    <div class="widgets">
+      <div class="widget reveal">
+        <span style="color:var(--muted)" data-i18n="mock.date">Thứ Ba, 24 tháng 11, 2026</span>
+        <div class="q" data-i18n="mock.q">Hôm nay, bạn đã nhìn thấy gì?</div>
+        <div class="row"><span class="cam"><svg viewBox="0 0 24 24"><use href="#cam"/></svg></span><span>☾ 3</span></div>
+      </div>
+      <div class="widget reveal" style="flex-direction:row;gap:8px">
+        <span class="wl" style="color:var(--muted)" data-i18n="mem.label">Lời của ngày hôm ấy</span>
+        <span class="v">帰り道、雲の切れ間から光が差していた。</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;justify-content:center" class="reveal">
+        <div class="lock"><b>◉ SEELI</b><span data-i18n="lock.q">Hôm nay bạn thấy gì?</span></div>
+        <div class="lock"><b>✦ SEELI</b><span data-i18n="lock.r">Một khoảnh khắc đã quay lại</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="kicker reveal">Why now</div>
+    <blockquote class="reveal" data-i18n-html="why.quote">Không phải “lưu càng nhiều càng tốt”, mà là <em>nhìn kỹ hơn</em>. Không phải “được người khác nhìn thấy”, mà là <em>mình thực sự nhìn thấy thế giới</em>.</blockquote>
+    <p class="reveal" data-i18n="why.p1">Trong thời đại AI, tạo ra hình ảnh, video hay bài viết chỉ mất vài giây. Smartphone giúp ta chụp lại gần như mọi thứ. Nhưng con người có nguy cơ nhìn thấy rất nhiều mà cảm nhận rất ít.</p>
+    <p class="reveal" data-i18n="why.p2">SEELI không được tạo ra để giữ bạn trên ứng dụng càng lâu càng tốt. Ngược lại — sau khi dùng, bạn có lý do để đặt điện thoại xuống và nhìn thế giới nhiều hơn.</p>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <svg viewBox="0 0 32 32" style="width:44px;margin:0 auto 12px;color:var(--green)" class="reveal"><use href="#eye"/></svg>
+    <h2 class="reveal" data-i18n="final.title">Hôm nay, bạn đã nhìn thấy gì?</h2>
+    <p class="sub reveal" style="margin-inline:auto" data-i18n="final.sub">SEELI đang trong giai đoạn thử nghiệm trên iPhone. Bản Android sẽ đến sau.</p>
+    <div class="ctas reveal">
+      <span class="btn primary" aria-disabled="true" data-i18n="final.cta">Sắp có trên App Store</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 SEELI — See more. Live more.</span>
+    <span><span data-i18n="footer.by">Một dự án của</span> <a href="https://tunnaduong.com">tunnaduong.com</a></span>
+  </div>
+</footer>
+
+<script>
+const ja = {
+  "eyebrow": "iOSアプリ · まもなく公開",
+  "lead": "SEELIは、撮った写真をすぐには見られないカメラアプリです。撮って、スマホを置いて——約30日後、その瞬間に新しい目でまた出会います。",
+  "cta.how": "SEELIのしくみ",
+  "cta.why": "なぜSEELIなのか",
+  "note": "日本語 · Tiếng Việt — iPhone、iOS 17以降。",
+  "mock.date": "令和八年十一月二十四日",
+  "mock.q": "今日は、何が見えた？",
+  "cycle.title": "見る。撮る。手放す。そして、いつか再会する。",
+  "cycle.sub": "撮った瞬間、写真は画面から消えます。「うまく撮れたかな」と確かめるのではなく、その瞬間を生き続けるために。",
+  "s1.t": "見る", "s1.d": "道すがら、小さな何かに気づく。",
+  "s2.t": "撮る", "s2.d": "一度だけシャッターを押し、ひと言を添える。",
+  "s3.t": "手放す", "s3.d": "写真はしまわれる。スマホを置こう。",
+  "s4.t": "時が流れる", "s4.d": "約30日、思いがけないタイミングで。",
+  "s5.t": "再会する", "s5.d": "違う気持ちで、もう一度見る。",
+  "sns.title": "ふつうのSNS",
+  "sns.1": "撮る", "sns.2": "投稿", "sns.3": "いいね", "sns.4": "反応を見る", "sns.5": "また投稿",
+  "sns.q": "「みんな、この写真を好きかな？」",
+  "seeli.1": "見る", "seeli.2": "撮る", "seeli.3": "手放す", "seeli.4": "生きる", "seeli.5": "再会する",
+  "seeli.q": "「わたしは、何を見たんだろう？」",
+  "feat.title": "あえて設計した、いくつかの制限。",
+  "f1.t": "すぐには見られない", "f1.d": "撮った写真はすぐにしまわれます。編集も、撮り直しも、比較もない。あるのは本当の瞬間だけ。",
+  "f2.t": "約30日後に再会", "f2.d": "記憶には時間が必要です。同じ写真でも、ひと月後には違って見える。",
+  "f3.t": "友だちはQRコードだけ", "f3.d": "実際に会った人とだけ、つながれます。テクノロジーは現実の関係を広げるもので、置き換えるものではありません。",
+  "f4.t": "いいねも、フォロワーもない", "f4.d": "閲覧数もランキングも、引き止めるアルゴリズムもありません。コメントは投稿者とあなたにだけ表示されます。",
+  "mem.label": "その日のことば",
+  "words.title": "写真ではなく、言葉で思い出す。",
+  "words.sub": "写真には、ひと言を添えます。短い言葉のほうが、写真よりも鮮やかにその時を思い出させることがある。日本語のことばは、新聞のような縦書きで表示されます。",
+  "w.title": "ホーム画面にも、ロック画面にも。",
+  "w.sub": "世界を見ることを思い出させる、やさしいリマインダー。写真が帰ってきたら、そっと知らせます。ウィジェットに写真は表示されません。",
+  "lock.q": "今日は、何が見えた？",
+  "lock.r": "ある瞬間が、帰ってきました",
+  "why.quote": "「たくさん残す」ではなく、<em>よく見る</em>。「誰かに見られる」ではなく、<em>自分が本当に世界を見る</em>。",
+  "why.p1": "AIの時代、画像も動画も文章も、数秒で作れるようになりました。スマホがあれば、ほとんど何でも撮れる。でも私たちは、たくさん見ているのに、ほとんど感じていないのかもしれません。",
+  "why.p2": "SEELIは、できるだけ長くアプリにとどまらせるためのものではありません。使い終わったあと、スマホを置いて、もっと世界を見たくなる——そんなアプリを目指しています。",
+  "final.title": "今日は、何が見えた？",
+  "final.sub": "SEELIは現在、iPhone向けにテスト中です。Android版はその後に。",
+  "final.cta": "App Storeで近日公開",
+  "footer.by": "制作",
+};
+
+const vi = {};
+document.querySelectorAll("[data-i18n]").forEach(el => { vi[el.dataset.i18n] ??= el.textContent; });
+document.querySelectorAll("[data-i18n-html]").forEach(el => { vi[el.dataset.i18nHtml] ??= el.innerHTML; });
+const meta = {
+  vi: { title: document.title, desc: document.querySelector('meta[name=description]').content },
+  ja: { title: "SEELI — See more. Live more.", desc: "SEELIは、撮った写真をすぐには見られないカメラアプリ。撮って、手放して、約30日後にまた出会う。" },
+};
+
+function setLang(lang) {
+  const dict = lang === "ja" ? ja : vi;
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => { if (dict[el.dataset.i18n]) el.textContent = dict[el.dataset.i18n]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => { if (dict[el.dataset.i18nHtml]) el.innerHTML = dict[el.dataset.i18nHtml]; });
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  document.querySelector('meta[name=description]').content = meta[lang].desc;
+  try { localStorage.setItem("seeli.lang", lang); } catch {}
+}
+
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+let initial = "vi";
+try {
+  const q = new URLSearchParams(location.search).get("lang");
+  initial = q || localStorage.getItem("seeli.lang") || ((navigator.language || "").startsWith("ja") ? "ja" : "vi");
+} catch {}
+if (initial === "ja") setLang("ja");
+
+const nav = document.getElementById("nav");
+addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 8), { passive: true });
+
+const io = new IntersectionObserver(entries => entries.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
