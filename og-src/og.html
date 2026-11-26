@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>SEELI OG image</title>
+<!-- Source for /og.png (1200×630). Render: see README "Ảnh OG". -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F5F0; --card: #ECEBE4; --surface: #FFFFFE; --green: #5F6B4E; --green-soft: #A9B79C;
+    --green-pale: #DCE4DA; --ink: #2F302B; --muted: #8B8C84; --line: #E2E1DA; --sun: #F5D38A; --night: #1F211D;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: var(--bg); color: var(--ink); font-family: "Be Vietnam Pro", system-ui, sans-serif;
+    position: relative;
+  }
+  /* soft light in the corner, like late afternoon sun */
+  body::before {
+    content: ""; position: absolute; width: 760px; height: 760px; right: -180px; top: -260px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,211,138,.38), rgba(245,211,138,0) 68%);
+  }
+  body::after {
+    content: ""; position: absolute; width: 620px; height: 620px; right: 60px; bottom: -380px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(169,183,156,.35), rgba(169,183,156,0) 70%);
+  }
+  .left { position: absolute; left: 84px; top: 62px; width: 640px; z-index: 1; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand svg { width: 46px; height: 46px; color: var(--ink); }
+  .brand b { font-weight: 600; letter-spacing: .22em; font-size: 22px; }
+  h1 {
+    font-family: "Lora", serif; font-weight: 400; font-size: 92px; line-height: 1.02; letter-spacing: -.01em;
+    margin-top: 46px;
+  }
+  h1 em { color: var(--green); }
+  .lead { font-size: 24px; line-height: 1.45; color: #4a4b45; margin-top: 26px; max-width: 600px; text-wrap: balance; }
+  .foot { position: absolute; left: 84px; bottom: 62px; display: flex; align-items: center; gap: 16px; z-index: 1; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 22px; border-radius: 14px;
+    background: var(--green); color: #fff; font-weight: 600; font-size: 19px;
+  }
+  .pill svg { width: 20px; height: 20px; }
+  .domain { font-size: 21px; color: var(--muted); font-weight: 500; margin-left: 8px; letter-spacing: .02em; }
+
+  /* phone */
+  .phone {
+    position: absolute; right: 96px; top: 58px; width: 318px; height: 640px; z-index: 1;
+    border-radius: 52px; background: var(--night); padding: 12px;
+    box-shadow: 0 40px 80px -30px rgba(31,33,29,.45), 0 0 0 1px rgba(0,0,0,.04);
+    transform: rotate(4deg);
+  }
+  .screen {
+    height: 100%; border-radius: 41px; background: var(--bg); overflow: hidden; position: relative;
+    padding: 58px 22px 0; display: flex; flex-direction: column;
+  }
+  .notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 96px; height: 28px; border-radius: 20px; background: var(--night); }
+  .s-top { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+  .s-title { font-family: "Lora", serif; font-size: 25px; margin: 16px 0 4px; }
+  .s-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 18px; }
+  .photo {
+    position: relative; height: 290px; border-radius: 22px; overflow: hidden;
+    background:
+      radial-gradient(120px 90px at 70% 30%, rgba(245,211,138,.95), rgba(245,211,138,0) 70%),
+      radial-gradient(160px 120px at 25% 80%, #7d8a69, rgba(125,138,105,0) 75%),
+      linear-gradient(170deg, #c9d3bf 0%, #a9b79c 45%, #6f7b5d 100%);
+    filter: saturate(.9);
+  }
+  .photo .veil { position: absolute; inset: 0; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); background: rgba(246,245,240,.18); }
+  .photo .moon {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-56%);
+    width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,254,.85);
+    display: grid; place-items: center;
+  }
+  .photo .moon svg { width: 30px; height: 30px; }
+  .photo .count {
+    position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; color: #fff;
+    font-size: 14px; font-weight: 600; letter-spacing: .04em; text-shadow: 0 1px 6px rgba(0,0,0,.18);
+  }
+  .photo .count span { display: block; font-family: "Lora", serif; font-weight: 400; font-size: 30px; letter-spacing: 0; margin-top: 2px; }
+  .note {
+    margin-top: 16px; background: var(--surface); border-radius: 16px; padding: 14px 16px; font-size: 13px; line-height: 1.45; color: #4a4b45;
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .note b { display: block; font-size: 11px; letter-spacing: .14em; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="eye" viewBox="0 0 32 32"><path d="M3 16c3.4-5.4 7.8-8 13-8s9.6 2.6 13 8c-3.4 5.4-7.8 8-13 8S6.4 21.4 3 16Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="16" cy="16" r="4.2" fill="currentColor"/><circle cx="16" cy="16" r="1.3" fill="#F5D38A"/></symbol>
+  </svg>
+
+  <div class="left">
+    <div class="brand"><svg viewBox="0 0 32 32"><use href="#eye"/></svg><b>SEELI</b></div>
+    <h1>See more.<br><em>Live more.</em></h1>
+    <p class="lead">Chụp, buông điện thoại xuống — khoảng 30 ngày sau, gặp lại khoảnh khắc ấy bằng một đôi mắt mới.</p>
+  </div>
+
+  <div class="foot">
+    <span class="pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.75 2.27-1.6 2.78-.41 6.9 1.15 9.16.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.12 2.76-2.23.87-1.27 1.23-2.5 1.25-2.57-.03-.01-2.4-.92-2.42-3.66zM14.1 5.86c.63-.77 1.06-1.83.94-2.89-.91.04-2.01.61-2.66 1.37-.58.67-1.09 1.75-.96 2.79 1.02.08 2.05-.52 2.68-1.27z"/></svg>
+      App Store
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.61 1.81 13.79 12 3.61 22.19a1.4 1.4 0 0 1-.61-1.17V2.98c0-.48.24-.9.61-1.17zm10.89 10.9 2.31 2.3-10.7 6.19 8.39-8.49zm3.18-3.18 2.85 1.65c.86.5.86 1.74 0 2.24l-2.85 1.65-2.47-2.47 2.47-2.47v-.07zM6.11 2.8l10.7 6.19-2.31 2.3-8.39-8.49z"/></svg>
+      Google Play
+    </span>
+    <span class="domain">seeli.cam</span>
+  </div>
+
+  <div class="phone">
+    <div class="screen">
+      <div class="notch"></div>
+      <div class="s-top"><span>Memories</span><span>Thứ Ba, 24/11</span></div>
+      <div class="s-title">Đang ngủ yên</div>
+      <div class="s-sub">Ảnh sẽ tự hiện lại khi đến ngày.</div>
+      <div class="photo">
+        <div class="veil"></div>
+        <div class="moon"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="#5F6B4E"/></svg></div>
+        <div class="count">GẶP LẠI SAU<span>27 ngày</span></div>
+      </div>
+      <div class="note"><b>GHI CHÚ</b>Trên đường ra ga, có tiếng chim lạ…</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -11,3 +11,9 @@ Trang giới thiệu tĩnh tại **https://seeli.cam** (tiếng Việt / 日本�
 ```bash
 npx wrangler deploy
 ```
+
+## Ảnh OG
+`og.png` (1200×630) được render từ `og-src/og.html`:
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=8000 --screenshot="$PWD/og.png" "file://$PWD/og-src/og.html"
+```
